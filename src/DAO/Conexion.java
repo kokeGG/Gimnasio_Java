@@ -13,13 +13,13 @@ import java.sql.SQLException;
  */
 public class Conexion {
     Connection con;
-    String url = "jdbc:mysql://localhost/scorpionGym";
+    String url = "jdbc:mysql://localhost/gym_prueba";
     String user = "root";
-    String pass = "";
+    String pass = "0509";
     
     public Connection Conectar(){
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, pass);
             System.out.println("Connection Success");
         }catch (ClassNotFoundException e){
