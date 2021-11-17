@@ -5,14 +5,17 @@
  */
 package vistas;
 
-import DAO.SucursalDAO;
-import clases.Sucursal;
 import java.awt.Image;
 import java.awt.Toolkit;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
+import DAO.UsuarioDAO;
+import clases.Sucursal;
+import clases.Usuario;
 
 /**
  *
@@ -26,8 +29,8 @@ public class login extends javax.swing.JFrame {
     private ImageIcon imagen;
     private Icon icono;
     
-    Sucursal su = new Sucursal();
-    SucursalDAO sud = new SucursalDAO();
+    Usuario su = new Usuario();
+    UsuarioDAO sud = new UsuarioDAO();
     public static String nombre="";
     
     public login() {
@@ -184,14 +187,14 @@ public class login extends javax.swing.JFrame {
 
     public void validar(){
         
-        String dni = txtPass.getText();
+        String pwd = txtPass.getText();
         nombre = txtUser.getText();
         if (txtUser.getText().equals("") || txtPass.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Debe ingresar datos");
             txtUser.requestFocus();
         }else{
-            su = sud.validarSucursal(dni, nombre);
-            if (su.getNom() != null && su.getDni() != null) {
+            su = sud.validatarUsuario(nombre,pwd);
+            if (null != su && null != su.getNombre()) {
                 home h = new home();
                 h.setVisible(true);
                 dispose();

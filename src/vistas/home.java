@@ -69,7 +69,7 @@ public class home extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         btn_eliminarMiembro = new javax.swing.JButton();
-        btn_añadirMiembro = new javax.swing.JButton();
+        btn_anadirMiembro = new javax.swing.JButton();
         txtViewU = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -199,8 +199,8 @@ public class home extends javax.swing.JFrame {
         btn_eliminarMiembro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_eliminarMiembro.setText("Eliminar Miembro");
 
-        btn_añadirMiembro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btn_añadirMiembro.setText("Añadir un nuevo Miembro");
+        btn_anadirMiembro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_anadirMiembro.setText("Añadir un nuevo Miembro");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -208,7 +208,7 @@ public class home extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btn_añadirMiembro)
+                .addComponent(btn_anadirMiembro)
                 .addGap(43, 43, 43)
                 .addComponent(jButton2)
                 .addGap(51, 51, 51)
@@ -220,7 +220,7 @@ public class home extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_añadirMiembro)
+                    .addComponent(btn_anadirMiembro)
                     .addComponent(jButton2)
                     .addComponent(btn_eliminarMiembro))
                 .addContainerGap(17, Short.MAX_VALUE))
@@ -400,7 +400,7 @@ public class home extends javax.swing.JFrame {
         txtViewU.setText("Hola " + login.nombre + "!");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_añadirMiembro;
+    private javax.swing.JButton btn_anadirMiembro;
     private javax.swing.JButton btn_eliminarMiembro;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
