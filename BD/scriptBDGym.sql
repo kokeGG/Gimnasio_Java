@@ -1,14 +1,16 @@
+drop database gymescorpion;
+
 CREATE DATABASE gymEscorpion;
 USE gymEscorpion;
 
 CREATE TABLE Estado(
-idEstados INT PRIMARY KEY NOT NULL auto_increment,
+idEstado INT PRIMARY KEY NOT NULL auto_increment,
 Estado VARCHAR(45) NULL
 );
 
 CREATE TABLE Usuario(
 idUsuario INT PRIMARY KEY NOT NULL auto_increment,
-idEstado INT NULL AUTO_INCREMENT,
+idEstado INT NULL,
 Usuario VARCHAR(45) NULL,
 Nombre VARCHAR(45) NULL,
 fechaCreacion DATETIME NULL,
@@ -97,32 +99,23 @@ total DECIMAL(8, 2) NULL,
 idUsuarioCreo INT NULL,
 FOREIGN KEY (idEstado) REFERENCES Estado (idEstado) 
 ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (idUsuario) REFERENCES Usuario (idUsuario)
+FOREIGN KEY (idUsuarioCreo) REFERENCES Usuario (idUsuario)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE DetalleSalida(
 idDetalleSalida INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-idProducto INT NULL,
-precioUnitario DECIMAL(8, 2) NULL,
+descripcion varchar(500) NULL,
 idSalida INT NULL,
-FOREIGN KEY (idProducto) REFERENCES Producto (idProducto)
-ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idSalida) REFERENCES Salida (idSalida)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE DetalleEntrada(
-idDetalleEntrada INT NOT NULL AUTO_INCREMENT,
-idProducto INT NULL,
-CostoUnitario DECIMAL(8, 2) NULL,
-idEntrado INT NULL,
-idDetalleSalida INT NULL,
-FOREIGN KEY (idProducto) REFERENCES Producto (idProducto)
-ON DELETE CASCADE ON UPDATE CASCADE,
+idDetalleEntrada INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+descripcion varchar(500) NULL,
+idEntrada INT NULL,
 FOREIGN KEY (idEntrada) REFERENCES Entrada (idEntrada)
-ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (idDetalleSalida) REFERENCES DetalleSalida (idDetalleSalida)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
 
