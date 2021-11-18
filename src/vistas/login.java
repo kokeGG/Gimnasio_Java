@@ -5,6 +5,7 @@
  */
 package vistas;
 
+import clases.Hash;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -29,8 +30,9 @@ public class login extends javax.swing.JFrame {
     private ImageIcon imagen;
     private Icon icono;
     
-    Usuario su = new Usuario();
-    UsuarioDAO sud = new UsuarioDAO();
+
+    Usuario u = new Usuario();
+    UsuarioDAO ud = new UsuarioDAO();
     public static String nombre="";
     
     public login() {
@@ -118,11 +120,6 @@ public class login extends javax.swing.JFrame {
         btn_salir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_salir.setForeground(new java.awt.Color(169, 50, 38));
         btn_salir.setText("X");
-        btn_salir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_salirActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -178,33 +175,65 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_logActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logActionPerformed
-        validar();
-    }//GEN-LAST:event_btn_logActionPerformed
 
-    private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_btn_salirActionPerformed
-
-    public void validar(){
-        
-        String pwd = txtPass.getText();
-        nombre = txtUser.getText();
-        if (txtUser.getText().equals("") || txtPass.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar datos");
-            txtUser.requestFocus();
-        }else{
-            su = sud.validatarUsuario(nombre,pwd);
-            if (null != su && null != su.getNombre()) {
+        String pass = new String(txtPass.getPassword());
+        if(!txtUser.getText().equals("") && !pass.equals("")) //validacion para cuando el campo usuario o pass esten vacios
+        {
+            //si no son igual a nada continua...
+            String nuevoPass = Hash.sha1(pass); //ciframos el password a sha1
+            u.setUsername(txtUser.getText()); //enviamos usuario
+            u.setPass(nuevoPass); // enviamos password cifrado
+            
+            if(ud.login(u))
+            {
                 home h = new home();
                 h.setVisible(true);
                 dispose();
             }
             else
             {
-                JOptionPane.showMessageDialog(this, "Usuario y/o contraseña no validos");
-                txtUser.requestFocus();
+                JOptionPane.showMessageDialog(null, "Datos incorrectos");
             }
         }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Debe ingresar datos");
+        }
+    }//GEN-LAST:event_btn_logActionPerformed
+
+    private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        System.exit(0);
+    }                                         
+
+    public void validar(){
+        
+        //String dni = txtPass.getText();
+        //nombre = txtUser.getText();
+        //if (txtUser.getText().equals("") || txtPass.getText().equals("")) {
+            //JOptionPane.showMessageDialog(this, "Debe ingresar datos");
+            //txtUser.requestFocus();
+        //}else{
+            //u = ud.validarUsuario(dni, nombre);
+            //if (u.getUsername()!= null && u.getPass()!= null) {
+                //if(u.getId_tipo().equals("1"))
+                //{
+                    home h = new home();
+                    h.setVisible(true);
+                    dispose();
+                //}
+                //else if(u.getId_tipo().equals("2"))
+                //{
+                    //homeSocio hs = new homeSocio();
+                    //hs.setVisible(true);
+                    //dispose();
+                //}
+            //}
+            //else
+            //{
+                //JOptionPane.showMessageDialog(this, "Usuario y/o contraseña no validos");
+                //txtUser.requestFocus();
+            //}
+        //}
     }
     /**
      * @param args the command line arguments
