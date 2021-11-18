@@ -90,10 +90,6 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="0" pref="66" max="32767" attributes="0"/>
-                                  <Component id="jLabel1" min="-2" pref="289" max="-2" attributes="0"/>
-                              </Group>
                               <Component id="txtUser" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtPass" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
@@ -106,13 +102,17 @@
                   </Group>
               </Group>
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="94" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="btn_log" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="165" max="-2" attributes="0"/>
                       </Group>
                       <Component id="btn_salir" alignment="1" min="-2" pref="47" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
           </Group>
@@ -213,6 +213,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="X"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_salirActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
