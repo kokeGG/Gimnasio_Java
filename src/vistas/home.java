@@ -6,10 +6,14 @@
 package vistas;
 
 import DAO.Conexion;
+import DAO.UsuarioDAO;
+import clases.Hash;
 import clases.Sucursal;
+import clases.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,15 +26,19 @@ public class home extends javax.swing.JFrame {
      */
     Conexion cn = new Conexion();
     Sucursal s = new Sucursal();
+    UsuarioDAO ud = new UsuarioDAO();
+    Usuario u = new Usuario();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
-    
+
     public home() {
         initComponents();
         saludoU();
+        setLocationRelativeTo(null);
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,7 +51,7 @@ public class home extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        menuvistaGeneral = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableMiembros = new javax.swing.JTable();
@@ -70,7 +78,34 @@ public class home extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         btn_eliminarMiembro = new javax.swing.JButton();
         btn_añadirMiembro = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        menuReportes = new javax.swing.JPanel();
+        menuSucursales = new javax.swing.JPanel();
+        menuAdminSoc = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaUsuarios = new javax.swing.JTable();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        txtNombreU = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        cmb_estadoU = new javax.swing.JComboBox<>();
+        jLabel21 = new javax.swing.JLabel();
+        txt_Username = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        cmb_rolU = new javax.swing.JComboBox<>();
+        btn_AgregarU = new javax.swing.JButton();
+        btn_ModificarU = new javax.swing.JButton();
+        btn_EliminarU = new javax.swing.JButton();
+        btn_LimpiarU = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        txtConfirmPass = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JPasswordField();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
         txtViewU = new javax.swing.JLabel();
+        Btn_cerrarSesión = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -140,7 +175,7 @@ public class home extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Vista general", jPanel4);
+        menuvistaGeneral.addTab("Vista general", jPanel4);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("ID membresía:");
@@ -320,20 +355,251 @@ public class home extends javax.swing.JFrame {
                 .addGap(36, 36, 36))
         );
 
-        jTabbedPane1.addTab("Administrar miembros", jPanel3);
+        menuvistaGeneral.addTab("Administrar miembros", jPanel3);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1182, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 474, Short.MAX_VALUE)
+        );
+
+        menuvistaGeneral.addTab("Ultimas visitas", jPanel7);
+
+        javax.swing.GroupLayout menuReportesLayout = new javax.swing.GroupLayout(menuReportes);
+        menuReportes.setLayout(menuReportesLayout);
+        menuReportesLayout.setHorizontalGroup(
+            menuReportesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1182, Short.MAX_VALUE)
+        );
+        menuReportesLayout.setVerticalGroup(
+            menuReportesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 474, Short.MAX_VALUE)
+        );
+
+        menuvistaGeneral.addTab("Reportes ganancias", menuReportes);
+
+        javax.swing.GroupLayout menuSucursalesLayout = new javax.swing.GroupLayout(menuSucursales);
+        menuSucursales.setLayout(menuSucursalesLayout);
+        menuSucursalesLayout.setHorizontalGroup(
+            menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1182, Short.MAX_VALUE)
+        );
+        menuSucursalesLayout.setVerticalGroup(
+            menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 474, Short.MAX_VALUE)
+        );
+
+        menuvistaGeneral.addTab("Sucursales", menuSucursales);
+
+        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Estado", "Usuario", "Nombre", "pass", "Rol"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tablaUsuarios);
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel18.setText("PASSWORD");
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel19.setText("NOMBRE");
+
+        txtNombreU.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel20.setText("ESTADO");
+
+        cmb_estadoU.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cmb_estadoU.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2" }));
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel21.setText("NOMBRE DE USUARIO");
+
+        txt_Username.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel22.setText("ROL");
+
+        cmb_rolU.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cmb_rolU.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2" }));
+
+        btn_AgregarU.setText("AGREGAR");
+        btn_AgregarU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarUActionPerformed(evt);
+            }
+        });
+
+        btn_ModificarU.setText("MODIFICAR");
+
+        btn_EliminarU.setText("ELIMINAR");
+
+        btn_LimpiarU.setText("LIMPIAR");
+        btn_LimpiarU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_LimpiarUActionPerformed(evt);
+            }
+        });
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel23.setText("CONFIRMAR PASSWORD");
+
+        txtConfirmPass.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        txtPassword.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jLabel24.setText("1 = Activo ");
+
+        jLabel25.setText("2 = Inactivo");
+
+        jLabel26.setText("1 = Admin");
+
+        jLabel27.setText("2 = Usuario");
+
+        javax.swing.GroupLayout menuAdminSocLayout = new javax.swing.GroupLayout(menuAdminSoc);
+        menuAdminSoc.setLayout(menuAdminSocLayout);
+        menuAdminSocLayout.setHorizontalGroup(
+            menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuAdminSocLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menuAdminSocLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(btn_AgregarU)
+                        .addGap(34, 34, 34)
+                        .addComponent(btn_ModificarU)
+                        .addGap(44, 44, 44)
+                        .addComponent(btn_EliminarU)
+                        .addGap(45, 45, 45)
+                        .addComponent(btn_LimpiarU))
+                    .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, menuAdminSocLayout.createSequentialGroup()
+                            .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel21)
+                                .addComponent(jLabel22))
+                            .addGap(38, 38, 38)
+                            .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(menuAdminSocLayout.createSequentialGroup()
+                                    .addComponent(cmb_rolU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(33, 33, 33)
+                                    .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel26)
+                                        .addComponent(jLabel27))
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(txt_Username)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, menuAdminSocLayout.createSequentialGroup()
+                            .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel18)
+                                .addComponent(jLabel19)
+                                .addComponent(jLabel20)
+                                .addComponent(jLabel23))
+                            .addGap(21, 21, 21)
+                            .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(menuAdminSocLayout.createSequentialGroup()
+                                    .addComponent(cmb_estadoU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(32, 32, 32)
+                                    .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel24)
+                                        .addComponent(jLabel25))
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(txtConfirmPass)
+                                .addComponent(txtPassword)
+                                .addComponent(txtNombreU)))))
+                .addGap(115, 115, 115))
+        );
+        menuAdminSocLayout.setVerticalGroup(
+            menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuAdminSocLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menuAdminSocLayout.createSequentialGroup()
+                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtConfirmPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23))
+                        .addGap(18, 18, 18)
+                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel20)
+                            .addGroup(menuAdminSocLayout.createSequentialGroup()
+                                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel19))
+                                .addGap(18, 18, 18)
+                                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmb_estadoU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(menuAdminSocLayout.createSequentialGroup()
+                                        .addComponent(jLabel24)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jLabel25)))))
+                        .addGap(18, 18, 18)
+                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(txt_Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel22)
+                                .addComponent(cmb_rolU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(menuAdminSocLayout.createSequentialGroup()
+                                .addComponent(jLabel26)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel27)))
+                        .addGap(74, 74, 74)
+                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_AgregarU)
+                            .addComponent(btn_ModificarU)
+                            .addComponent(btn_EliminarU)
+                            .addComponent(btn_LimpiarU))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        menuvistaGeneral.addTab("Administrar Socios", menuAdminSoc);
 
         txtViewU.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        Btn_cerrarSesión.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Btn_cerrarSesión.setText("CERRAR SESIÓN");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1)
+            .addComponent(menuvistaGeneral)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txtViewU, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Btn_cerrarSesión)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,8 +608,10 @@ public class home extends javax.swing.JFrame {
                 .addGap(1, 1, 1)
                 .addComponent(txtViewU, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addComponent(menuvistaGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Btn_cerrarSesión)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -359,6 +627,56 @@ public class home extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_AgregarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarUActionPerformed
+        // TODO add your handling code here:
+        String pass = new String(txtPassword.getPassword());
+        String passCon = new String(txtConfirmPass.getPassword());
+        
+        if (txt_Username.getText().equals("") || pass.equals("") || passCon.equals("") ||
+                txtNombreU.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
+        }
+        else{  
+                if (pass.equals(passCon)) 
+                {
+                    //verificar si existe un usuario que estamos ingresando 
+                    if(ud.existeUsuario(txt_Username.getText())==0)
+                    { //si es 0 no existe
+                        String nuevoPass = Hash.sha1(pass); //Para cifrar la pass
+                        u.setUsername(txt_Username.getText());
+                        u.setPass(nuevoPass);
+                        u.setNombre(txtNombreU.getText());
+                        u.setId_estado(Integer.parseInt((String) cmb_estadoU.getSelectedItem()));
+                        u.setId_tipo(Integer.parseInt((String)cmb_rolU.getSelectedItem()));
+            
+                        if (ud.registarUsuario(u)) 
+                        {
+                            JOptionPane.showMessageDialog(null, "Registro Guardado");
+                            limpiar();
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Error al guardar");
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "El usuario ya existe");
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+                }
+        
+        }
+    }//GEN-LAST:event_btn_AgregarUActionPerformed
+
+    private void btn_LimpiarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarUActionPerformed
+        // TODO add your handling code here:
+        limpiar();
+    }//GEN-LAST:event_btn_LimpiarUActionPerformed
 
     /**
      * @param args the command line arguments
@@ -386,6 +704,9 @@ public class home extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -395,13 +716,27 @@ public class home extends javax.swing.JFrame {
         });
     }
 
+    public void limpiar(){
+        txtPassword.setText("");
+        txtConfirmPass.setText("");
+        txtNombreU.setText("");
+        txt_Username.setText("");
+    }
+    
     public void saludoU(){
         
         txtViewU.setText("Hola " + login.nombre + "!");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Btn_cerrarSesión;
+    private javax.swing.JButton btn_AgregarU;
+    private javax.swing.JButton btn_EliminarU;
+    private javax.swing.JButton btn_LimpiarU;
+    private javax.swing.JButton btn_ModificarU;
     private javax.swing.JButton btn_añadirMiembro;
     private javax.swing.JButton btn_eliminarMiembro;
+    private javax.swing.JComboBox<String> cmb_estadoU;
+    private javax.swing.JComboBox<String> cmb_rolU;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -413,7 +748,17 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -426,10 +771,20 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel menuAdminSoc;
+    private javax.swing.JPanel menuReportes;
+    private javax.swing.JPanel menuSucursales;
+    private javax.swing.JTabbedPane menuvistaGeneral;
+    private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTable tableMiembros;
+    private javax.swing.JPasswordField txtConfirmPass;
+    private javax.swing.JTextField txtNombreU;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JLabel txtViewU;
+    private javax.swing.JTextField txt_Username;
     // End of variables declaration//GEN-END:variables
 }

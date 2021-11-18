@@ -6,7 +6,10 @@
 package vistas;
 
 import DAO.SucursalDAO;
+import DAO.UsuarioDAO;
+import clases.Hash;
 import clases.Sucursal;
+import clases.Usuario;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.Icon;
@@ -26,8 +29,8 @@ public class login extends javax.swing.JFrame {
     private ImageIcon imagen;
     private Icon icono;
     
-    Sucursal su = new Sucursal();
-    SucursalDAO sud = new SucursalDAO();
+    Usuario u = new Usuario();
+    UsuarioDAO ud = new UsuarioDAO();
     public static String nombre="";
     
     public login() {
@@ -175,7 +178,29 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_logActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logActionPerformed
-        validar();
+        String pass = new String(txtPass.getPassword());
+        if(!txtUser.getText().equals("") && !pass.equals("")) //validacion para cuando el campo usuario o pass esten vacios
+        {
+            //si no son igual a nada continua...
+            String nuevoPass = Hash.sha1(pass); //ciframos el password a sha1
+            u.setUsername(txtUser.getText()); //enviamos usuario
+            u.setPass(nuevoPass); // enviamos password cifrado
+            
+            if(ud.login(u))
+            {
+                home h = new home();
+                h.setVisible(true);
+                dispose();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Datos incorrectos");
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Debe ingresar datos");
+        }
     }//GEN-LAST:event_btn_logActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
@@ -184,24 +209,33 @@ public class login extends javax.swing.JFrame {
 
     public void validar(){
         
-        String dni = txtPass.getText();
-        nombre = txtUser.getText();
-        if (txtUser.getText().equals("") || txtPass.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar datos");
-            txtUser.requestFocus();
-        }else{
-            su = sud.validarSucursal(dni, nombre);
-            if (su.getNom() != null && su.getDni() != null) {
-                home h = new home();
-                h.setVisible(true);
-                dispose();
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(this, "Usuario y/o contraseña no validos");
-                txtUser.requestFocus();
-            }
-        }
+        //String dni = txtPass.getText();
+        //nombre = txtUser.getText();
+        //if (txtUser.getText().equals("") || txtPass.getText().equals("")) {
+            //JOptionPane.showMessageDialog(this, "Debe ingresar datos");
+            //txtUser.requestFocus();
+        //}else{
+            //u = ud.validarUsuario(dni, nombre);
+            //if (u.getUsername()!= null && u.getPass()!= null) {
+                //if(u.getId_tipo().equals("1"))
+                //{
+                    home h = new home();
+                    h.setVisible(true);
+                    dispose();
+                //}
+                //else if(u.getId_tipo().equals("2"))
+                //{
+                    //homeSocio hs = new homeSocio();
+                    //hs.setVisible(true);
+                    //dispose();
+                //}
+            //}
+            //else
+            //{
+                //JOptionPane.showMessageDialog(this, "Usuario y/o contraseña no validos");
+                //txtUser.requestFocus();
+            //}
+        //}
     }
     /**
      * @param args the command line arguments
