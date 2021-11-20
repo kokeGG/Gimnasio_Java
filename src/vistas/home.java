@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vistas;
 
 import DAO.Conexion;
@@ -15,10 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Koke
- */
+/*  msi gaming publicidad*/
 public class home extends javax.swing.JFrame {
 
     /**
@@ -36,8 +28,12 @@ public class home extends javax.swing.JFrame {
         initComponents();
         saludoU();
         setLocationRelativeTo(null);
+        validad();
     }
-    
+   
+    void validad(){
+        //borrar esta función solo fue para hacer merge
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.

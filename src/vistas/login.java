@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vistas;
 
 import DAO.SucursalDAO;
@@ -19,7 +14,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Koke
+ * @MSI gaming publicidad
  */
 public class login extends javax.swing.JFrame {
 
@@ -207,6 +202,10 @@ public class login extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btn_salirActionPerformed
 
+    public void funcionParaHacerMergeXD(){
+        //borrar porque no sirve pa nada
+    }
+    
     public void validar(){
         
         //String dni = txtPass.getText();
