@@ -1,13 +1,24 @@
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DAO;
 
 import clases.Usuario;
+import com.sun.istack.internal.logging.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
-
+/**
+ *
+ * @author Koke
+ */
 public class UsuarioDAO {
     Connection con;
     PreparedStatement ps;
@@ -20,7 +31,7 @@ public class UsuarioDAO {
         {
             con = cn.Conectar();
             //Consulta a la BD para ingresar datos
-            String sql = "INSERT INTO Usuario(Usuario, Nombre, pass, idEstado, id_tipo) VALUES"
+            String sql = "INSERT INTO Usuario(Usur, Nombre, pass, idEstado, id_tipo) VALUES"
                     + "(?, ?, ?, ?, ?)";
             
             try 
@@ -47,7 +58,7 @@ public class UsuarioDAO {
         {
             con = cn.Conectar();
             //Consulta a la bd para verificar si el usuario existe          
-            String sql = "SELECT count (id) FROM Usuario WHERE Usuario = ?"; //cuenta cuantos registros hay con el "username"
+            String sql = "SELECT count (id) FROM Usuario WHERE Usur = ?"; //cuenta cuantos registros hay con el "username"
             
             try 
             {
@@ -95,8 +106,8 @@ public class UsuarioDAO {
         
         public boolean login(Usuario usr){
             con = cn.Conectar();
-            String sql = "SELECT u.idUsuario, u.Usuario, u.pass, u.Nombre, u.id_tipo FROM Usuarios"
-                    + "AS u  WHERE Usuario = ?";
+            String sql = "SELECT u.idUsuario, u.Usur, u.pass, u.Nombre, u.id_tipo FROM Usuarios"
+                    + "AS u  WHERE Usur = ?";
             
             try {
                 ps = con.prepareStatement(sql);
@@ -122,4 +133,9 @@ public class UsuarioDAO {
             }   
         
         }
+    
 }
+
+
+
+
