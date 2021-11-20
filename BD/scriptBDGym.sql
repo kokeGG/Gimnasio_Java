@@ -8,6 +8,11 @@ idEstado INT PRIMARY KEY NOT NULL auto_increment,
 Estado VARCHAR(45) NULL
 );
 
+CREATE TABLE tipo_usuario(
+id_tipo INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+rol VARCHAR(10)
+);
+
 CREATE TABLE Usuario(
 idUsuario INT PRIMARY KEY NOT NULL auto_increment,
 idEstado INT NULL,
