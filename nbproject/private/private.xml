@@ -5,9 +5,8 @@
         <group>
             <file>file:/D:/Documentos/NetBeansProjects/Gimnasio_Java/src/DAO/UsuarioDAO.java</file>
             <file>file:/D:/Documentos/NetBeansProjects/Gimnasio_Java/src/clases/Usuario.java</file>
-            <file>file:/D:/Documentos/NetBeansProjects/Gimnasio_Java/src/vistas/login.java</file>
+            <file>file:/D:/Documentos/NetBeansProjects/Gimnasio_Java/src/vistas/loginDLT.java</file>
             <file>file:/D:/Documentos/NetBeansProjects/Gimnasio_Java/src/DAO/Conexion.java</file>
-            <file>file:/D:/Documentos/NetBeansProjects/Gimnasio_Java/src/vistas/home.java</file>
         </group>
     </open-files>
 </project-private>
