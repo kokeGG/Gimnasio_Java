@@ -25,8 +25,7 @@ public class login extends javax.swing.JFrame {
     private ImageIcon imagen;
     private Icon icono;
     
-    Usuario u = new Usuario();
-    UsuarioDAO ud = new UsuarioDAO();
+    
     public static String nombre="";
     
     public login() {
@@ -173,14 +172,18 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_logActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logActionPerformed
+        Usuario u = new Usuario();
+        UsuarioDAO ud = new UsuarioDAO();
+        
         String pass = new String(txtPass.getPassword());
-        if(!txtUser.getText().equals("") && !pass.equals("")) //validacion para cuando el campo usuario o pass esten vacios
+        nombre = txtUser.getText();
+        if(!nombre.equals("") && !pass.equals("")) //validacion para cuando el campo usuario o pass esten vacios
         {
             //si no son igual a nada continua...
             String nuevoPass = Hash.sha1(pass); //ciframos el password a sha1
-            u.setUsername(txtUser.getText()); //enviamos usuario
+            u.setUsername(nombre); //enviamos usuario
             u.setPass(nuevoPass); // enviamos password cifrado
-            
+            System.out.println("username: " + u.getNombre() + "pass: " + u.getPass());
             if(ud.login(u))
             {
                 home h = new home();

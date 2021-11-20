@@ -12,17 +12,33 @@ CREATE TABLE tipo_usuario(
 id_tipo INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 rol VARCHAR(10)
 );
+INSERT INTO Estado (Estado) VALUES 
+('activo'), 
+('inactivo'), 
+('baneado');
+
+INSERT INTO tipo_usuario (rol) VALUES
+('admin'),
+('socio');
 
 CREATE TABLE Usuario(
 idUsuario INT PRIMARY KEY NOT NULL auto_increment,
-idEstado INT NULL,
-Usuario VARCHAR(45) NULL,
+idEstado INT NULL default'1',
+Username VARCHAR(45) NULL,
 Nombre VARCHAR(45) NULL,
 fechaCreacion DATETIME NULL,
 pass VARCHAR(45) NULL,
+id_tipo INT default '2',
 FOREIGN KEY (idEstado) REFERENCES Estado(idEstado)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (id_tipo) REFERENCES tipo_usuario(id_tipo)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+/*SHA1*/
+INSERT INTO Usuario(Usuario, Nombre, pass, id_tipo) VALUES
+('admin', 'admin', sha1('pass'), '1'),
+('emp', 'Socio', sha1('clave'), '2');
 
 CREATE TABLE Socio(
 idSocio INT PRIMARY KEY NOT NULL AUTO_INCREMENT,

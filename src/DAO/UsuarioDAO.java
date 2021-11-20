@@ -31,7 +31,7 @@ public class UsuarioDAO {
         {
             con = cn.Conectar();
             //Consulta a la BD para ingresar datos
-            String sql = "INSERT INTO Usuario(Usur, Nombre, pass, idEstado, id_tipo) VALUES"
+            String sql = "INSERT INTO Usuario(Username, Nombre, pass, idEstado, id_tipo) VALUES"
                     + "(?, ?, ?, ?, ?)";
             
             try 
@@ -58,7 +58,7 @@ public class UsuarioDAO {
         {
             con = cn.Conectar();
             //Consulta a la bd para verificar si el usuario existe          
-            String sql = "SELECT count (id) FROM Usuario WHERE Usur = ?"; //cuenta cuantos registros hay con el "username"
+            String sql = "SELECT count (id) FROM Usuario WHERE Username = ?"; //cuenta cuantos registros hay con el "username"
             
             try 
             {
@@ -106,8 +106,7 @@ public class UsuarioDAO {
         
         public boolean login(Usuario usr){
             con = cn.Conectar();
-            String sql = "SELECT u.idUsuario, u.Usur, u.pass, u.Nombre, u.id_tipo FROM Usuarios"
-                    + "AS u  WHERE Usur = ?";
+            String sql = "SELECT idUsuario, Username, pass, Nombre, id_tipo FROM Usuario WHERE Username = ?";
             
             try {
                 ps = con.prepareStatement(sql);

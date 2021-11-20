@@ -28,12 +28,8 @@ public class home extends javax.swing.JFrame {
         initComponents();
         saludoU();
         setLocationRelativeTo(null);
-        validad();
     }
    
-    void validad(){
-        //borrar esta función solo fue para hacer merge
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
