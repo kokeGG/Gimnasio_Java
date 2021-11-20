@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /*  msi gaming publicidad*/
-public class home extends javax.swing.JFrame {
+public class homeDLT extends javax.swing.JFrame {
 
     /**
      * Creates new form home
@@ -24,7 +24,7 @@ public class home extends javax.swing.JFrame {
     PreparedStatement ps;
     ResultSet rs;
 
-    public home() {
+    public homeDLT() {
         initComponents();
         saludoU();
         setLocationRelativeTo(null);
@@ -691,14 +691,18 @@ public class home extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(homeDLT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(homeDLT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(homeDLT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(homeDLT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -707,7 +711,7 @@ public class home extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new home().setVisible(true);
+                new homeDLT().setVisible(true);
             }
         });
     }
@@ -721,7 +725,7 @@ public class home extends javax.swing.JFrame {
     
     public void saludoU(){
         
-        txtViewU.setText("Hola " + login.nombre + "!");
+        txtViewU.setText("Hola " + loginDLT.nombre + "!");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_cerrarSesión;
