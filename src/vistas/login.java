@@ -186,7 +186,7 @@ public class login extends javax.swing.JFrame {
             System.out.println("username: " + u.getNombre() + "pass: " + u.getPass());
             if(ud.login(u))
             {
-                home h = new home();
+                home h = new home(u);
                 h.setVisible(true);
                 dispose();
             }

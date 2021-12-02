@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /*  msi gaming publicidad*/
 public class home extends javax.swing.JFrame {
@@ -24,12 +25,31 @@ public class home extends javax.swing.JFrame {
     PreparedStatement ps;
     ResultSet rs;
 
+    
+    
+    
+    
     public home() {
-        initComponents();
-        saludoU();
         setLocationRelativeTo(null);
     }
-   
+    
+   public home(Usuario u){
+       initComponents();
+       saludoU();
+       this.u = u;
+       if(u.getId_tipo()==1){
+           
+       }
+       else if (u.getId_tipo() == 2)
+       {
+           menuvistaGeneral.remove(menuAdminSoc);
+           menuvistaGeneral.remove(menuReportes);
+           menuvistaGeneral.remove(menuSucursales);
+
+           
+       }
+       System.out.println("el id_tipo es " + u.getId_tipo());
+   }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -71,6 +91,10 @@ public class home extends javax.swing.JFrame {
         btn_eliminarMiembro = new javax.swing.JButton();
         btn_añadirMiembro = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableVisitas = new javax.swing.JTable();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel28 = new javax.swing.JLabel();
         menuReportes = new javax.swing.JPanel();
         menuSucursales = new javax.swing.JPanel();
         menuAdminSoc = new javax.swing.JPanel();
@@ -349,18 +373,61 @@ public class home extends javax.swing.JFrame {
 
         menuvistaGeneral.addTab("Administrar miembros", jPanel3);
 
+        tableVisitas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID miembro", "Nombre", "Fecha", "Hora entrada", "Hora salida"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tableVisitas);
+        if (tableVisitas.getColumnModel().getColumnCount() > 0) {
+            tableVisitas.getColumnModel().getColumn(0).setResizable(false);
+            tableVisitas.getColumnModel().getColumn(1).setResizable(false);
+            tableVisitas.getColumnModel().getColumn(2).setResizable(false);
+            tableVisitas.getColumnModel().getColumn(3).setResizable(false);
+            tableVisitas.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel28.setText("Seleccione una fecha:");
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1182, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1182, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel28)
+                .addGap(32, 32, 32)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 474, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel28))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuvistaGeneral.addTab("Ultimas visitas", jPanel7);
+        menuvistaGeneral.addTab("Registro visitas", jPanel7);
 
         javax.swing.GroupLayout menuReportesLayout = new javax.swing.GroupLayout(menuReportes);
         menuReportes.setLayout(menuReportesLayout);
@@ -525,6 +592,7 @@ public class home extends javax.swing.JFrame {
             .addGroup(menuAdminSocLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(menuAdminSocLayout.createSequentialGroup()
                         .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
@@ -566,9 +634,7 @@ public class home extends javax.swing.JFrame {
                             .addComponent(btn_ModificarU)
                             .addComponent(btn_EliminarU)
                             .addComponent(btn_LimpiarU))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addContainerGap(110, Short.MAX_VALUE))))
         );
 
         menuvistaGeneral.addTab("Administrar Socios", menuAdminSoc);
@@ -577,6 +643,11 @@ public class home extends javax.swing.JFrame {
 
         Btn_cerrarSesión.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Btn_cerrarSesión.setText("CERRAR SESIÓN");
+        Btn_cerrarSesión.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_cerrarSesiónActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -670,6 +741,13 @@ public class home extends javax.swing.JFrame {
         limpiar();
     }//GEN-LAST:event_btn_LimpiarUActionPerformed
 
+    private void Btn_cerrarSesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_cerrarSesiónActionPerformed
+        // TODO add your handling code here:
+        login log = new login();
+        log.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_Btn_cerrarSesiónActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -731,6 +809,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmb_rolU;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -751,6 +830,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -766,6 +846,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel menuAdminSoc;
     private javax.swing.JPanel menuReportes;
@@ -773,6 +854,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JTabbedPane menuvistaGeneral;
     private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTable tableMiembros;
+    private javax.swing.JTable tableVisitas;
     private javax.swing.JPasswordField txtConfirmPass;
     private javax.swing.JTextField txtNombreU;
     private javax.swing.JPasswordField txtPassword;

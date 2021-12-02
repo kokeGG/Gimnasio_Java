@@ -106,7 +106,7 @@ public class UsuarioDAO {
         
         public boolean login(Usuario usr){
             con = cn.Conectar();
-            String sql = "SELECT idUsuario, Username, pass, Nombre, id_tipo FROM Usuario WHERE Username = ?";
+            String sql = "SELECT u.idUsuario, u.Username, u.pass, u.Nombre, u.id_tipo, t.rol FROM Usuario AS u INNER JOIN tipo_usuario AS t ON u.id_tipo = t.id_tipo WHERE Username = ?";
             
             try {
                 ps = con.prepareStatement(sql);
@@ -119,6 +119,7 @@ public class UsuarioDAO {
                         usr.setId(rs.getInt(1));
                         usr.setNombre(rs.getString(4));
                         usr.setId_tipo(rs.getInt(5));
+                        usr.setNombrerol(rs.getString(6));
                         return true; //cuando las contraseñas coincidan
                     } else{
                         return false; //cuando las contraseñas no coincidan

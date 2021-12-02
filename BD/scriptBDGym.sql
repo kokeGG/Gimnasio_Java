@@ -26,7 +26,6 @@ idUsuario INT PRIMARY KEY NOT NULL auto_increment,
 idEstado INT NULL default'1',
 Username VARCHAR(45) NULL,
 Nombre VARCHAR(45) NULL,
-fechaCreacion DATETIME NULL,
 pass VARCHAR(45) NULL,
 id_tipo INT default '2',
 FOREIGN KEY (idEstado) REFERENCES Estado(idEstado)
@@ -36,9 +35,11 @@ ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /*SHA1*/
-INSERT INTO Usuario(Usuario, Nombre, pass, id_tipo) VALUES
+INSERT INTO Usuario(Username, Nombre, pass, id_tipo) VALUES
 ('admin', 'admin', sha1('pass'), '1'),
 ('emp', 'Socio', sha1('clave'), '2');
+
+Drop table usuario;
 
 CREATE TABLE Socio(
 idSocio INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
