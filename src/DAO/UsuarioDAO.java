@@ -6,7 +6,6 @@
 package DAO;
 
 import clases.Usuario;
-import com.sun.istack.internal.logging.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
