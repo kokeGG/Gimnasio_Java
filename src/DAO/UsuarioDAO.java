@@ -104,8 +104,7 @@ public class UsuarioDAO {
         
         public boolean login(Usuario usr){
             con = cn.Conectar();
-            String sql = "SELECT u.idUsuario, u.Usur, u.pass, u.Nombre, u.id_tipo FROM Usuarios"
-                    + "AS u  WHERE Usur = ?";
+            String sql = "SELECT u.idUsuario, u.Usur, u.pass, u.Nombre, u.id_tipo FROM Usuario AS u  WHERE Usur = ?";
             
             try {
                 ps = con.prepareStatement(sql);
