@@ -11,22 +11,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 /**
  *
  * @author Koke
  */
-public class UsuarioDAO {
+public class UsuarioDAO implements CRUD{
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
     
     Conexion cn = new Conexion();
-    
+
     
         public boolean registarUsuario(Usuario usr)
         {
+            ps = null;
+            rs = null;
             con = cn.Conectar();
             //Consulta a la BD para ingresar datos
             String sql = "INSERT INTO Usuario(Usur, Nombre, pass, idEstado, id_tipo) VALUES"
@@ -54,16 +57,17 @@ public class UsuarioDAO {
         
         public int existeUsuario(String usuario)
         {
+            ps = null;
+            rs = null;
             con = cn.Conectar();
             //Consulta a la bd para verificar si el usuario existe          
-            String sql = "SELECT count (id) FROM Usuario WHERE Usur = ?"; //cuenta cuantos registros hay con el "username"
+            String sql = "SELECT COUNT(idUsuario) FROM Usuario WHERE Usur = ?"; //cuenta cuantos registros hay con el "username"
             
             try 
             {
                 ps = con.prepareStatement(sql);
-            
                 ps.setString(1, usuario);
-                ps.execute();
+                //ps.execute();
                 rs = ps.executeQuery();
                 
                 if (rs.next()) {
@@ -130,6 +134,87 @@ public class UsuarioDAO {
             }   
         
         }
+
+    @Override
+    public List listar() {
+        List<Usuario> lista = new ArrayList<>();
+        String sql = "SELECT * FROM Usuario";
+        
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {         
+                Usuario usr = new Usuario();
+                usr.setId(rs.getInt(1));
+                usr.setId_estado(rs.getInt(2));
+                usr.setUsername(rs.getString(3));
+                usr.setNombre(rs.getString(4));
+                usr.setPass(rs.getString(5));
+                usr.setId_tipo(rs.getInt(6));
+                lista.add(usr);
+             
+            }
+        } catch (Exception e) {
+            System.out.println("Error al mostrar productos" + e);
+        }
+        return lista;
+    }
+
+    @Override
+    public int add(Object[] o) {
+        int r = 0;
+        String sql = "INSERT INTO Usuario(Usur, Nombre, pass, idEstado, id_tipo) VALUES"
+                    + "(?, ?, ?, ?, ?)";
+            
+            try 
+            {
+                con = cn.Conectar();
+                ps = con.prepareStatement(sql);
+                ps.setObject(1, o[0]);
+                ps.setObject(2, o[1]);
+                ps.setObject(3, o[2]);
+                ps.setObject(4, o[3]);
+                ps.setObject(5, o[4]);
+                r = ps.executeUpdate();
+                System.out.println("Usuario agregado");
+            } 
+            catch (Exception e) 
+            {
+                
+                System.out.println("Error al agregar usuarios" + e);
+                
+            }
+            return r;
+    }
+
+    @Override
+    public int actualizar(Object[] o) {
+        int r = 0;
+        String sql = "UPDATE Usuario SET Usur = ?, Nombre = ?, pass = ?, id_tipo = ?, idEstado = ? WHERE idUsuario = ?";
+        
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setObject(1, o[0]);
+            ps.setObject(2, o[1]);
+            ps.setObject(3, o[2]);
+            ps.setObject(4, o[3]);
+            ps.setObject(5, o[4]);
+            r = ps.executeUpdate();
+            System.out.println("Usuario modificado");
+            
+        } catch (Exception e) {
+            System.out.println("Error al modificador usuario" + e);
+        }
+        return r;
+    }
+
+    @Override
+    public void eliminar(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }
 

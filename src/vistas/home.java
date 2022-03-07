@@ -13,7 +13,9 @@ import clases.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -31,13 +33,30 @@ public class home extends javax.swing.JFrame {
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
+    DefaultTableModel modelo = new DefaultTableModel();
 
     public home() {
         initComponents();
         saludoU();
         setLocationRelativeTo(null);
+        listar();
     }
     
+    void listar(){
+        List<Usuario> lista = ud.listar();
+        modelo = (DefaultTableModel) tablaUsuarios.getModel();
+        Object[] ob = new Object[6];
+        for (int i = 0; i < lista.size(); i++) {
+            ob[0] = lista.get(i).getId();
+            ob[1] = lista.get(i).getId_estado();
+            ob[2] = lista.get(i).getUsername();
+            ob[3] = lista.get(i).getNombre();
+            ob[4] = lista.get(i).getPass();
+            ob[5] = lista.get(i).getId_tipo();
+            modelo.addRow(ob);
+        }
+        tablaUsuarios.setModel(modelo);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -398,10 +417,7 @@ public class home extends javax.swing.JFrame {
 
         tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Estado", "Usuario", "Nombre", "pass", "Rol"
@@ -630,7 +646,9 @@ public class home extends javax.swing.JFrame {
 
     private void btn_AgregarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarUActionPerformed
         // TODO add your handling code here:
-        String pass = new String(txtPassword.getPassword());
+        agregar();
+        limpiar();
+       /* String pass = new String(txtPassword.getPassword());
         String passCon = new String(txtConfirmPass.getPassword());
         
         if (txt_Username.getText().equals("") || pass.equals("") || passCon.equals("") ||
@@ -641,7 +659,7 @@ public class home extends javax.swing.JFrame {
                 if (pass.equals(passCon)) 
                 {
                     //verificar si existe un usuario que estamos ingresando 
-                    if(ud.existeUsuario(txt_Username.getText())==0)
+                    if(ud.existeUsuario(txt_Username.getText()) == 0)
                     { //si es 0 no existe
                         String nuevoPass = Hash.sha1(pass); //Para cifrar la pass
                         u.setUsername(txt_Username.getText());
@@ -670,7 +688,7 @@ public class home extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
                 }
         
-        }
+        }*/
     }//GEN-LAST:event_btn_AgregarUActionPerformed
 
     private void btn_LimpiarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarUActionPerformed
@@ -714,6 +732,46 @@ public class home extends javax.swing.JFrame {
                 new home().setVisible(true);
             }
         });
+    }
+    
+    public void agregar(){
+        
+        String pass = new String(txtPassword.getPassword());
+        String passcon = new String(txtConfirmPass.getPassword());
+        String nom = txtNombreU.getText();
+        String username = txt_Username.getText();
+        String status = cmb_estadoU.getSelectedItem().toString();
+        String rol = cmb_rolU.getSelectedItem().toString();
+        
+        if (pass.equals("") || passcon.equals("") || nom.equals("") || username.equals("") || status.equals("") || rol.equals("")) {
+            JOptionPane.showMessageDialog(null, "Hay campos que se deben llenar");
+        }else{
+            if (passcon.equals(pass)) { //verifica si las contraseñas coinciden
+                if (ud.existeUsuario(txt_Username.getText()) == 0) { //verificar si el usuario ya existe
+                    //si es 0 no existe
+                    String passCifrado = Hash.sha1(pass);
+                    Object[] ob = new Object[5];
+                    ob[0] = username;
+                    ob[1] = nom;
+                    ob[2] = passCifrado;
+                    ob[3] = status;
+                    ob[4] = rol;
+                    if(ud.add(ob) == 1)
+                    {
+                        JOptionPane.showMessageDialog(null, "Usuario registrado con éxito");
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Error al registrar");
+                    }
+                }else
+                {
+                    JOptionPane.showMessageDialog(null, "El usuario ya existe");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+            }
+        }
     }
 
     public void limpiar(){
