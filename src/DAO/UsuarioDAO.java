@@ -202,6 +202,7 @@ public class UsuarioDAO implements CRUD{
             ps.setObject(3, o[2]);
             ps.setObject(4, o[3]);
             ps.setObject(5, o[4]);
+            ps.setObject(6, o[5]);
             r = ps.executeUpdate();
             System.out.println("Usuario modificado");
             

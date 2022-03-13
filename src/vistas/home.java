@@ -34,7 +34,8 @@ public class home extends javax.swing.JFrame {
     PreparedStatement ps;
     ResultSet rs;
     DefaultTableModel modelo = new DefaultTableModel();
-
+    int id;
+    
     public home() {
         initComponents();
         saludoU();
@@ -431,6 +432,11 @@ public class home extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaUsuarios);
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -466,8 +472,18 @@ public class home extends javax.swing.JFrame {
         });
 
         btn_ModificarU.setText("MODIFICAR");
+        btn_ModificarU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ModificarUActionPerformed(evt);
+            }
+        });
 
         btn_EliminarU.setText("ELIMINAR");
+        btn_EliminarU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_EliminarUActionPerformed(evt);
+            }
+        });
 
         btn_LimpiarU.setText("LIMPIAR");
         btn_LimpiarU.addActionListener(new java.awt.event.ActionListener() {
@@ -647,7 +663,9 @@ public class home extends javax.swing.JFrame {
     private void btn_AgregarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarUActionPerformed
         // TODO add your handling code here:
         agregar();
+        limpiarTabla();
         limpiar();
+        listar();
        /* String pass = new String(txtPassword.getPassword());
         String passCon = new String(txtConfirmPass.getPassword());
         
@@ -695,6 +713,45 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
         limpiar();
     }//GEN-LAST:event_btn_LimpiarUActionPerformed
+
+    private void tablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseClicked
+        // TODO add your handling code here:
+        int fila = tablaUsuarios.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una fila");
+        } else {
+            id = Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString());
+            String estado = tablaUsuarios.getValueAt(fila, 1).toString();
+            String usuario = tablaUsuarios.getValueAt(fila, 2).toString();
+            String nom = tablaUsuarios.getValueAt(fila, 3).toString();
+            String pass = tablaUsuarios.getValueAt(fila, 4).toString();
+            String rol = tablaUsuarios.getValueAt(fila, 5).toString();
+            
+            txtNombreU.setText(nom);
+            cmb_estadoU.setSelectedItem(estado);
+            txt_Username.setText(usuario);
+            txtPassword.setText(pass);
+            cmb_rolU.setSelectedItem(rol);
+        }
+
+    }//GEN-LAST:event_tablaUsuariosMouseClicked
+
+    private void btn_ModificarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarUActionPerformed
+        // TODO add your handling code here:
+        actualizar();
+        limpiarTabla();
+        limpiar();
+        listar();
+    }//GEN-LAST:event_btn_ModificarUActionPerformed
+
+    private void btn_EliminarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarUActionPerformed
+        // TODO add your handling code here:
+        eliminar();
+        limpiarTabla();
+        listar();
+        limpiar();
+        
+    }//GEN-LAST:event_btn_EliminarUActionPerformed
 
     /**
      * @param args the command line arguments
@@ -779,6 +836,48 @@ public class home extends javax.swing.JFrame {
         txtConfirmPass.setText("");
         txtNombreU.setText("");
         txt_Username.setText("");
+    }
+    
+    void actualizar(){
+        int fila = tablaUsuarios.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "seleccione una fila");
+        } else {
+            String nom = txtNombreU.getText();
+            String estado = cmb_estadoU.getSelectedItem().toString();
+            String username = txt_Username.getText();
+            String pass = txtPassword.getText();
+            String rol = cmb_rolU.getSelectedItem().toString();
+            
+            Object[] ob = new Object[6];
+            ob[0] = username;
+            ob[1] = nom;
+            ob[2] = pass;
+            ob[3] = estado;
+            ob[4] = rol;
+            ob[5] = id;
+            ud.actualizar(ob);
+        }
+    }
+    
+    public void limpiarTabla(){
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            modelo.removeRow(i);
+            i = i -1;
+            
+        }
+    }
+    
+    void eliminar(){
+        int fila = tablaUsuarios.getSelectedRow();
+        
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona una fila");
+        }
+        else
+        {
+            ud.eliminar(id);
+        }
     }
     
     public void saludoU(){
