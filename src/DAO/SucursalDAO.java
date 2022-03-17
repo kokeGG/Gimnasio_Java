@@ -34,9 +34,10 @@ public class SucursalDAO implements CRUD{
             ps = con.prepareStatement(sql);
             while (rs.next()) {
                 s.setId(rs.getInt(1));
-                s.setDni(rs.getString(2));
-                s.setNom(rs.getString(3));
-                s.setTel(rs.getString(4));
+                s.setNom(rs.getString(2));
+                s.setTel(rs.getString(3));
+                s.setCalle(rs.getString(4));
+                s.setCol(rs.getString(5));
             }
         } catch (Exception e) {
             System.out.println("Error al listar ID de las sucursales: " + e);
@@ -57,13 +58,13 @@ public class SucursalDAO implements CRUD{
             
             while (rs.next()) {                
                 s.setId(rs.getInt(1));
-                s.setDni(rs.getString(2));
-                s.setNom(rs.getString(3));
-                s.setTel(rs.getString(4));
-               
+                s.setNom(rs.getString(2));
+                s.setTel(rs.getString(3));
+                s.setCalle(rs.getString(4));
+                s.setCol(rs.getString(5));
             }
         } catch (Exception e) {
-            System.out.println("Error to validate user");
+            System.out.println("Error al validar sucursal");
         }
         return s;
     }
@@ -81,9 +82,10 @@ public class SucursalDAO implements CRUD{
             while (rs.next()) {
                 Sucursal s = new Sucursal();
                 s.setId(rs.getInt(1));
-                s.setDni(rs.getString(2));
-                s.setNom(rs.getString(3));
-                s.setTel(rs.getString(4));
+                s.setNom(rs.getString(2));
+                s.setTel(rs.getString(3));
+                s.setCalle(rs.getString(4));
+                s.setCol(rs.getString(5));
                 
                 lista.add(s);
                 System.out.println("Sucursales mostradas");

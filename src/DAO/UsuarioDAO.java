@@ -108,7 +108,7 @@ public class UsuarioDAO implements CRUD{
         
         public boolean login(Usuario usr){
             con = cn.Conectar();
-            String sql = "SELECT u.idUsuario, u.Usur, u.pass, u.Nombre, u.id_tipo FROM Usuario AS u  WHERE Usur = ?";
+            String sql = "SELECT u.idUsuario, u.Usur, u.pass, u.Nombre, u.id_tipo, t.rol FROM Usuario AS u INNER JOIN tipo_usuario AS t ON u.id_tipo=t.id_tipo WHERE Usur = ?";
             
             try {
                 ps = con.prepareStatement(sql);
@@ -121,6 +121,7 @@ public class UsuarioDAO implements CRUD{
                         usr.setId(rs.getInt(1));
                         usr.setNombre(rs.getString(4));
                         usr.setId_tipo(rs.getInt(5));
+                        usr.setNombrerol(rs.getString(6));
                         return true; //cuando las contraseñas coincidan
                     } else{
                         return false; //cuando las contraseñas no coincidan
