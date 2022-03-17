@@ -6,6 +6,7 @@
 package vistas;
 
 import DAO.Conexion;
+import DAO.SucursalDAO;
 import DAO.UsuarioDAO;
 import clases.Hash;
 import clases.Sucursal;
@@ -29,6 +30,7 @@ public class home extends javax.swing.JFrame {
     Conexion cn = new Conexion();
     Sucursal s = new Sucursal();
     UsuarioDAO ud = new UsuarioDAO();
+    SucursalDAO sud = new SucursalDAO();
     Usuario u = new Usuario();
     Connection con;
     PreparedStatement ps;
@@ -46,6 +48,7 @@ public class home extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.u = u;
         listar();
+        listarSucursal();
         saludoU();
         
         
@@ -72,6 +75,22 @@ public class home extends javax.swing.JFrame {
             modelo.addRow(ob);
         }
         tablaUsuarios.setModel(modelo);
+    }
+    
+    void listarSucursal(){
+        List<Sucursal> lista = sud.listar();
+        modelo = (DefaultTableModel) tableSucursales.getModel();
+        Object[] ob = new Object[6];
+        for (int i = 0; i < lista.size(); i++) {
+            ob[0] = lista.get(i).getId();
+            ob[1] = lista.get(i).getNom();
+            ob[2] = lista.get(i).getTel();
+            ob[3] = lista.get(i).getCalle();
+            ob[4] = lista.get(i).getCol();
+            ob[5] = lista.get(i).getIdUsuario();
+            modelo.addRow(ob);
+        }
+        tableSucursales.setModel(modelo);
     }
     
     /**
@@ -119,17 +138,17 @@ public class home extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tableSucursales = new javax.swing.JTable();
         jLabel29 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtNombreSuc = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtTel = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtCalle = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        txtCol = new javax.swing.JTextField();
+        addSucursal = new javax.swing.JButton();
+        modSucursal = new javax.swing.JButton();
+        eliminarSucursal = new javax.swing.JButton();
+        limpiarSucursal = new javax.swing.JButton();
         menuAdminSoc = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaUsuarios = new javax.swing.JTable();
@@ -437,9 +456,14 @@ public class home extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Telefono", "Calle", "Colonia"
+                "ID", "Nombre", "Telefono", "Calle", "Colonia", "Creada/Modificado"
             }
         ));
+        tableSucursales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableSucursalesMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tableSucursales);
 
         jLabel29.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -454,13 +478,33 @@ public class home extends javax.swing.JFrame {
         jLabel32.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel32.setText("COLONIA:");
 
-        jButton3.setText("AGREGAR");
+        addSucursal.setText("AGREGAR");
+        addSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addSucursalActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("MODIFICAR");
+        modSucursal.setText("MODIFICAR");
+        modSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modSucursalActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("ELIMINAR");
+        eliminarSucursal.setText("ELIMINAR");
+        eliminarSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarSucursalActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("LIMPIAR");
+        limpiarSucursal.setText("LIMPIAR");
+        limpiarSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limpiarSucursalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout menuSucursalesLayout = new javax.swing.GroupLayout(menuSucursales);
         menuSucursales.setLayout(menuSucursalesLayout);
@@ -471,15 +515,6 @@ public class home extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(menuSucursalesLayout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(jButton3)
-                        .addGap(44, 44, 44)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addComponent(jButton5)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6))
-                    .addGroup(menuSucursalesLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel29)
@@ -488,42 +523,52 @@ public class home extends javax.swing.JFrame {
                             .addComponent(jLabel32))
                         .addGap(27, 27, 27)
                         .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))))
-                .addGap(78, 78, 78))
+                            .addComponent(txtNombreSuc)
+                            .addComponent(txtTel)
+                            .addComponent(txtCalle)
+                            .addComponent(txtCol, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)))
+                    .addGroup(menuSucursalesLayout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(addSucursal)
+                        .addGap(32, 32, 32)
+                        .addComponent(modSucursal)
+                        .addGap(35, 35, 35)
+                        .addComponent(eliminarSucursal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(limpiarSucursal)))
+                .addGap(92, 92, 92))
         );
         menuSucursalesLayout.setVerticalGroup(
             menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuSucursalesLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
-                .addGap(15, 15, 15))
-            .addGroup(menuSucursalesLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel30))
-                .addGap(18, 18, 18)
-                .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel29))
-                .addGap(18, 18, 18)
-                .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel31)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel32)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(114, 114, 114)
-                .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menuSucursalesLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNombreSuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel30))
+                        .addGap(18, 18, 18)
+                        .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel29))
+                        .addGap(18, 18, 18)
+                        .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel31)
+                            .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel32)
+                            .addComponent(txtCol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(56, 56, 56)
+                        .addGroup(menuSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addSucursal)
+                            .addComponent(modSucursal)
+                            .addComponent(eliminarSucursal)
+                            .addComponent(limpiarSucursal)))
+                    .addGroup(menuSucursalesLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         menuvistaGeneral.addTab("Sucursales", menuSucursales);
@@ -626,52 +671,55 @@ public class home extends javax.swing.JFrame {
             .addGroup(menuAdminSocLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(menuAdminSocLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
+                        .addGap(18, 18, 18)
+                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(menuAdminSocLayout.createSequentialGroup()
+                                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel21)
+                                    .addComponent(jLabel22))
+                                .addGap(38, 38, 38)
+                                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_Username)
+                                    .addGroup(menuAdminSocLayout.createSequentialGroup()
+                                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(menuAdminSocLayout.createSequentialGroup()
+                                                .addGap(105, 105, 105)
+                                                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel26)
+                                                    .addComponent(jLabel27)))
+                                            .addComponent(cmb_rolU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 280, Short.MAX_VALUE))))
+                            .addGroup(menuAdminSocLayout.createSequentialGroup()
+                                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel18)
+                                    .addComponent(jLabel19)
+                                    .addComponent(jLabel20)
+                                    .addComponent(jLabel23))
+                                .addGap(21, 21, 21)
+                                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtConfirmPass)
+                                    .addComponent(txtNombreU)
+                                    .addComponent(txtPassword)
+                                    .addGroup(menuAdminSocLayout.createSequentialGroup()
+                                        .addComponent(cmb_estadoU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(32, 32, 32)
+                                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel25)
+                                            .addComponent(jLabel24))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addContainerGap())
+                    .addGroup(menuAdminSocLayout.createSequentialGroup()
+                        .addGap(49, 49, 49)
                         .addComponent(btn_AgregarU)
-                        .addGap(34, 34, 34)
-                        .addComponent(btn_ModificarU)
                         .addGap(44, 44, 44)
+                        .addComponent(btn_ModificarU)
+                        .addGap(40, 40, 40)
                         .addComponent(btn_EliminarU)
                         .addGap(45, 45, 45)
-                        .addComponent(btn_LimpiarU))
-                    .addGroup(menuAdminSocLayout.createSequentialGroup()
-                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel21)
-                            .addComponent(jLabel22))
-                        .addGap(38, 38, 38)
-                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_Username)
-                            .addGroup(menuAdminSocLayout.createSequentialGroup()
-                                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(menuAdminSocLayout.createSequentialGroup()
-                                        .addGap(105, 105, 105)
-                                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel26)
-                                            .addComponent(jLabel27)))
-                                    .addComponent(cmb_rolU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 280, Short.MAX_VALUE))))
-                    .addGroup(menuAdminSocLayout.createSequentialGroup()
-                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel18)
-                            .addComponent(jLabel19)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel23))
-                        .addGap(21, 21, 21)
-                        .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtConfirmPass)
-                            .addComponent(txtNombreU)
-                            .addComponent(txtPassword)
-                            .addGroup(menuAdminSocLayout.createSequentialGroup()
-                                .addComponent(cmb_estadoU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel25)
-                                    .addComponent(jLabel24))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
+                        .addComponent(btn_LimpiarU)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         menuAdminSocLayout.setVerticalGroup(
             menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -712,7 +760,7 @@ public class home extends javax.swing.JFrame {
                                 .addComponent(jLabel26)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel27)))
-                        .addGap(110, 110, 110)
+                        .addGap(30, 30, 30)
                         .addGroup(menuAdminSocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_AgregarU)
                             .addComponent(btn_ModificarU)
@@ -778,47 +826,6 @@ public class home extends javax.swing.JFrame {
         limpiarTabla();
         limpiar();
         listar();
-       /* String pass = new String(txtPassword.getPassword());
-        String passCon = new String(txtConfirmPass.getPassword());
-        
-        if (txt_Username.getText().equals("") || pass.equals("") || passCon.equals("") ||
-                txtNombreU.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
-        }
-        else{  
-                if (pass.equals(passCon)) 
-                {
-                    //verificar si existe un usuario que estamos ingresando 
-                    if(ud.existeUsuario(txt_Username.getText()) == 0)
-                    { //si es 0 no existe
-                        String nuevoPass = Hash.sha1(pass); //Para cifrar la pass
-                        u.setUsername(txt_Username.getText());
-                        u.setPass(nuevoPass);
-                        u.setNombre(txtNombreU.getText());
-                        u.setId_estado(Integer.parseInt((String) cmb_estadoU.getSelectedItem()));
-                        u.setId_tipo(Integer.parseInt((String)cmb_rolU.getSelectedItem()));
-            
-                        if (ud.registarUsuario(u)) 
-                        {
-                            JOptionPane.showMessageDialog(null, "Registro Guardado");
-                            limpiar();
-                        }
-                        else
-                        {
-                            JOptionPane.showMessageDialog(null, "Error al guardar");
-                        }
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null, "El usuario ya existe");
-                    }
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
-                }
-        
-        }*/
     }//GEN-LAST:event_btn_AgregarUActionPerformed
 
     private void btn_LimpiarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarUActionPerformed
@@ -864,6 +871,55 @@ public class home extends javax.swing.JFrame {
         limpiar();
         
     }//GEN-LAST:event_btn_EliminarUActionPerformed
+
+    private void addSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSucursalActionPerformed
+        // TODO add your handling code here:
+        agregarSucursal();
+        limpiarTabla();
+        limpiarSuc();
+        listarSucursal();
+    }//GEN-LAST:event_addSucursalActionPerformed
+
+    private void tableSucursalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableSucursalesMouseClicked
+        // TODO add your handling code here:
+        int fila = tableSucursales.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una fila");
+        } else {
+            id = Integer.parseInt(tableSucursales.getValueAt(fila, 0).toString());
+            String nombre = tableSucursales.getValueAt(fila, 1).toString();
+            String tel = tableSucursales.getValueAt(fila, 2).toString();
+            String calle = tableSucursales.getValueAt(fila, 3).toString();
+            String col = tableSucursales.getValueAt(fila, 4).toString();
+            
+            txtNombreSuc.setText(nombre);
+            txtTel.setText(tel);
+            txtCalle.setText(calle);
+            txtCol.setText(col);
+        }
+    }//GEN-LAST:event_tableSucursalesMouseClicked
+
+    private void eliminarSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarSucursalActionPerformed
+        // TODO add your handling code here:
+        eliminarSucursal();
+        limpiarTabla();
+        limpiarSuc();
+        listarSucursal();
+    }//GEN-LAST:event_eliminarSucursalActionPerformed
+
+    private void modSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modSucursalActionPerformed
+        // TODO add your handling code here:
+        actualizarSuc();
+        limpiarTabla();
+        limpiarSuc();
+        listarSucursal();
+        
+    }//GEN-LAST:event_modSucursalActionPerformed
+
+    private void limpiarSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarSucursalActionPerformed
+        // TODO add your handling code here:
+        limpiarSuc();
+    }//GEN-LAST:event_limpiarSucursalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -992,12 +1048,85 @@ public class home extends javax.swing.JFrame {
         }
     }
     
+    public void agregarSucursal(){
+        
+        String nomSuc = txtNombreSuc.getText();
+        String tel = txtTel.getText();
+        String calle = txtCalle.getText();
+        String col = txtCol.getText();
+        
+        if (nomSuc.equals("") || tel.equals("") || calle.equals("") || col.equals("")) {
+            JOptionPane.showMessageDialog(null, "Hay campos que se deben llenar");
+        }else{
+            if (sud.existeSucursal(txtNombreSuc.getText()) == 0){ //verificar si la sucursal ya existe
+                Object[] ob = new Object[5];
+                ob[0] = nomSuc;
+                ob[1] = tel;
+                ob[2] = calle;
+                ob[3] = col;
+                ob[4] = login.idUser;
+                if(sud.add(ob) == 1){
+                    JOptionPane.showMessageDialog(null, "Sucursal registrada con éxito");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Error al registrar");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "La sucursal ya existe");
+            }
+        }
+    }
+    
+    public void eliminarSucursal(){
+        int fila = tableSucursales.getSelectedRow();
+        
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona una fila");
+        }
+        else
+        {
+            sud.eliminar(id);
+        }
+        
+    }
+    
+        void actualizarSuc(){
+        int fila = tableSucursales.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "seleccione una fila");
+        } else {
+            String nom = txtNombreSuc.getText();
+            String tel = txtTel.getText();
+            String calle = txtCalle.getText();
+            String col = txtCol.getText();
+            
+            Object[] ob = new Object[6];
+            ob[0] = nom;
+            ob[1] = tel;
+            ob[2] = calle;
+            ob[3] = col;
+            ob[4] = login.idUser;
+            ob[5] = id;
+            sud.actualizar(ob);
+        }
+    }
+    
+    public void limpiarSuc(){
+        txtNombreSuc.setText("");
+        txtTel.setText("");
+        txtCalle.setText("");
+        txtCol.setText("");
+    }
+        
+        
     public void saludoU(){
         
         txtViewU.setText("Hola " + login.nombre + "!");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_cerrarSesión;
+    private javax.swing.JButton addSucursal;
     private javax.swing.JButton btn_AgregarU;
     private javax.swing.JButton btn_EliminarU;
     private javax.swing.JButton btn_LimpiarU;
@@ -1006,12 +1135,9 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JButton btn_eliminarMiembro;
     private javax.swing.JComboBox<String> cmb_estadoU;
     private javax.swing.JComboBox<String> cmb_rolU;
+    private javax.swing.JButton eliminarSucursal;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1053,20 +1179,22 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JButton limpiarSucursal;
     private javax.swing.JPanel menuAdminSoc;
     private javax.swing.JPanel menuReportes;
     private javax.swing.JPanel menuSucursales;
     private javax.swing.JTabbedPane menuvistaGeneral;
+    private javax.swing.JButton modSucursal;
     private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTable tableMiembros;
     private javax.swing.JTable tableSucursales;
+    private javax.swing.JTextField txtCalle;
+    private javax.swing.JTextField txtCol;
     private javax.swing.JPasswordField txtConfirmPass;
+    private javax.swing.JTextField txtNombreSuc;
     private javax.swing.JTextField txtNombreU;
     private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtTel;
     private javax.swing.JLabel txtViewU;
     private javax.swing.JTextField txt_Username;
     // End of variables declaration//GEN-END:variables
