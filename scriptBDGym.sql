@@ -188,5 +188,155 @@ precioVisita DECIMAL(8, 2) NULL
 -- ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+DROP DATABASE gymescorpion;
+
+/*	NUEVA BASE DE DATOS */
+
+CREATE DATABASE gymescorpion;
+USE gymescorpion;
+
+CREATE TABLE Estado(
+idEstado INT PRIMARY KEY NOT NULL auto_increment,
+Estado VARCHAR(10) NOT NULL
+);
+
+INSERT INTO Estado(Estado) VALUES 
+('activo'),
+('inactivo'),
+('baneado');
+
+CREATE TABLE tipoUsuario(
+idTipo INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Rol VARCHAR(10)
+);
+
+INSERT INTO tipoUsuario(Rol) VALUES 
+('admin'),
+('trabajador'),
+('visita'),
+('miembro');
+
+CREATE TABLE Usuario(
+idUsuario INT PRIMARY KEY NOT NULL auto_increment,
+idEstado INT NOT NULL DEFAULT '1',
+Usuario VARCHAR(45) NULL,
+Nombre VARCHAR(45) NULL,
+fechaCreacion DATETIME,
+pass VARCHAR(100) NULL,
+idTipo INT DEFAULT '2',
+FOREIGN KEY (idEstado) REFERENCES Estado (idEstado)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idTipo) REFERENCES tipoUsuario (idTipo)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*INSERTAR DATOS CON PASSWORD CIFRADO CON SHA1*/
+INSERT INTO Usuario(Usurio, Nombre, pass, idTipo) VALUES
+('admin', 'admin', sha1('pass'), '1');
+
+INSERT INTO Usuario(Usurio, Nombre, pass, idTipo) VALUES
+('emp', 'Socio', sha1('clave'), '2');
+
+CREATE TABLE Miembro(
+idMiembro INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+idEstado INT NOT NULL,
+fechaCreacion DATETIME NULL,
+Nombre VARCHAR(45) NULL,
+Paterno VARCHAR(45) NULL,
+Materno VARCHAR(45) NULL,
+Tel VARCHAR(45) NULL,
+Observaciones VARCHAR(500) NULL,
+idUsuarioCreo INT NULL,
+FOREIGN KEY (idEstado) REFERENCES Estado(idEstado) 
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idUsuarioCreo) REFERENCES Usuario(idUsuario)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Sucursal(
+idSucursal INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Nombre VARCHAR(45),
+Tel VARCHAR(10),
+Calle VARCHAR(30),
+Colonia VARCHAR(30),
+idUsuarioCreo INT NOT NULL,
+FOREIGN KEY (idUsuarioCreo) REFERENCES Usuario(idUsuario)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Membresia(
+idMembresia INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Nombre VARCHAR(45) NULL,
+idEstado INT NULL,
+fechaCreacion DATETIME NULL,
+Precio DECIMAL (8, 2) NULL,
+idUsuarioCreo INT NULL,
+meses INT NULL COMMENT 'meses de la membresia',
+horaInicio TIME NULL,
+horaFinal TIME NULL,
+FOREIGN KEY (idEstado) REFERENCES Estado(idEstado)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idUsuarioCreo) REFERENCES Usuario(idUsuario)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE MiembroMembresia(
+idSocioMembresia INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+idEstado INT NULL,
+fechaCreacion DATETIME NULL,
+idUsuarioCreo INT NULL,
+idMiembro INT NULL,
+idMembresia INT NULL,
+Precio DECIMAL (8,2) NULL,
+fechaInicioMembresia DATETIME NULL,
+FOREIGN KEY (idEstado) REFERENCES Estado (idEstado)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idUsuarioCreo) REFERENCES Usuario(idUsuario)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idMiembro) REFERENCES Miembro(idMiembro)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idMembresia) REFERENCES Membresia (idMembresia)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Entrada(
+idEntrada INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+fechaCreacion DATETIME NOT NULL,
+idUsuarioCreo INT NULL,
+idMiembro INT NOT NULL,
+FOREIGN KEY (idUsuarioCreo) REFERENCES Usuario(idUsuario)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idMiembro) REFERENCES Miembro(idMiembro)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Salida(
+idSalida INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+fechaCreacion DATETIME NULL,
+idUsuarioCreo INT NULL,
+idMiembro INT NOT NULL,
+FOREIGN KEY (idUsuarioCreo) REFERENCES Usuario (idUsuario)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idMiembro) REFERENCES Miembro(idMiembro)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Visita(
+idVisita INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+idMiembro INT NULL,
+fechaCreacion DATETIME NULL,
+precioVisita DECIMAL(8, 2) NULL,
+FOREIGN KEY (idMiembro) REFERENCES Miembro (idMiembro)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE UsuarioSucursal(
+idUsuarioSucursal INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+idSucursal INT NOT NULL,
+idUsuario INT NOT NULL,
+FOREIGN KEY (idSucursal) REFERENCES Sucursal(idSucursal)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 DROP DATABASE gymescorpion;
