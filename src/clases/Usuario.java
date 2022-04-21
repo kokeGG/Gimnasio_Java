@@ -10,19 +10,22 @@ package clases;
  * @author Koke
  */
 public class Usuario {
-    int id, id_estado, id_tipo;
-    String username, nombre, pass, nombrerol;
+    int id, id_estado, id_tipo, id_sucursal;
+    String username, nombre, apellidoP, pass, nombrerol;
 
     public Usuario() {
     }
 
-    public Usuario(int id, int id_estado, int id_tipo, String username, String nombre, String pass) {
+    public Usuario(int id, int id_estado, int id_tipo, int id_sucursal, String username, String nombre, String apellidoP, String pass, String nombrerol) {
         this.id = id;
         this.id_estado = id_estado;
         this.id_tipo = id_tipo;
+        this.id_sucursal = id_sucursal;
         this.username = username;
         this.nombre = nombre;
+        this.apellidoP = apellidoP;
         this.pass = pass;
+        this.nombrerol = nombrerol;
     }
 
     public int getId() {
@@ -49,6 +52,14 @@ public class Usuario {
         this.id_tipo = id_tipo;
     }
 
+    public int getId_sucursal() {
+        return id_sucursal;
+    }
+
+    public void setId_sucursal(int id_sucursal) {
+        this.id_sucursal = id_sucursal;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -63,6 +74,14 @@ public class Usuario {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getApellidoP() {
+        return apellidoP;
+    }
+
+    public void setApellidoP(String apellidoP) {
+        this.apellidoP = apellidoP;
     }
 
     public String getPass() {
