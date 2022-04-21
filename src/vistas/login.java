@@ -233,6 +233,9 @@ public class login extends javax.swing.JFrame {
 
     private void btn_log1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_log1ActionPerformed
         // TODO add your handling code here:
+        registroUsuarios regU = new registroUsuarios();
+        regU.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btn_log1ActionPerformed
 /*
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {                                          
