@@ -35,7 +35,7 @@ public class login extends javax.swing.JFrame {
     UsuarioDAO ud = new UsuarioDAO();
     public static String nombre="";
     public static int idUser;
-    
+    public static int idSuc;
     public login() {
         initComponents();
         this.setLocationRelativeTo(this);
@@ -211,6 +211,7 @@ public class login extends javax.swing.JFrame {
             {
                 idUser = u.getId();
                 nombre = u.getNombre();
+                idSuc = u.getId_sucursal();
                 home h = new home(u);
                 h.setVisible(true);
                 dispose();

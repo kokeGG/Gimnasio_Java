@@ -189,8 +189,9 @@ precioVisita DECIMAL(8, 2) NULL
 );
 
 DROP DATABASE gymescorpion;
-
-/*	NUEVA BASE DE DATOS */
+/*-----------------------------------------------------------------------------------------*/
+								/*	NUEVA BASE DE DATOS */
+/*-----------------------------------------------------------------------------------------*/                                                                                 
 
 CREATE DATABASE gymescorpion;
 USE gymescorpion;
@@ -216,25 +217,49 @@ INSERT INTO tipoUsuario(Rol) VALUES
 ('visita'),
 ('miembro');
 
+CREATE TABLE Sucursal(
+idSucursal INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Nombre VARCHAR(45),
+Tel VARCHAR(10),
+Calle VARCHAR(30),
+Colonia VARCHAR(30)
+);
+
+INSERT INTO Sucursal(Nombre, Tel, Calle, Colonia) VALUES 
+('Sucursal1', '1234567890', 'Sur 741', 'Colonia1'),
+('Sucursal2', '7418529637', 'Norte 52', 'Colonia2'),
+('Sucursal3', '3698521475', 'Poniente 84', 'Colonia3');
+
 CREATE TABLE Usuario(
 idUsuario INT PRIMARY KEY NOT NULL auto_increment,
 idEstado INT NOT NULL DEFAULT '1',
 Usuario VARCHAR(45) NULL,
 Nombre VARCHAR(45) NULL,
-fechaCreacion DATETIME,
+Apellido VARCHAR(45) NULL,
+fechaCreacion TIMESTAMP,
 pass VARCHAR(100) NULL,
 idTipo INT DEFAULT '2',
+idSucursal INT NOT NULL,
 FOREIGN KEY (idEstado) REFERENCES Estado (idEstado)
 ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (idTipo) REFERENCES tipoUsuario (idTipo)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idSucursal) REFERENCES Sucursal (idSucursal)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
 /*INSERTAR DATOS CON PASSWORD CIFRADO CON SHA1*/
-INSERT INTO Usuario(Usurio, Nombre, pass, idTipo) VALUES
-('admin', 'admin', sha1('pass'), '1');
-
-INSERT INTO Usuario(Usurio, Nombre, pass, idTipo) VALUES
-('emp', 'Socio', sha1('clave'), '2');
+INSERT INTO Usuario(Usuario, Nombre, Apellido, fechaCreacion, pass, idTipo, idSucursal) VALUES
+('adminSuc1', 'administrador', 'de Sucursal1', '2022-04-27 00:20:50', sha1('pass'), '1', '1'),
+('adminSuc2', 'administrador', 'de Sucursal2', '2022-04-27 00:03:57', sha1('contra'), '1', '2'),
+('adminSuc3', 'administrador', 'de Sucursal3', '2022-04-27 01:12:50', sha1('clave'), '1', '3');
+/*UPDATE Usuario 
+SET Apellido = 'de Sucursal3', Nombre = 'administrador3'
+WHERE idUsuario = '3';*/
+INSERT INTO Usuario(Usuario, Nombre, Apellido, fechaCreacion, pass, idTipo, idSucursal) VALUES
+('emp', 'Socio', 'Sucursal1', '2022-04-27 00:15:34', sha1('clave'), '2', '1'),
+('emp2', 'trabajador', 'Sucursal2', '2022-04-27 08:30:15', sha1('contraseña'), '2', '2'),
+('emp3', 'colaborador', 'Sucursal3', '2022-04-27 00:00:00', sha1('123'), '2', '3');
+SELECT * FROM Usuario;
 
 CREATE TABLE Miembro(
 idMiembro INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -248,17 +273,6 @@ Observaciones VARCHAR(500) NULL,
 idUsuarioCreo INT NULL,
 FOREIGN KEY (idEstado) REFERENCES Estado(idEstado) 
 ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (idUsuarioCreo) REFERENCES Usuario(idUsuario)
-ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE Sucursal(
-idSucursal INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-Nombre VARCHAR(45),
-Tel VARCHAR(10),
-Calle VARCHAR(30),
-Colonia VARCHAR(30),
-idUsuarioCreo INT NOT NULL,
 FOREIGN KEY (idUsuarioCreo) REFERENCES Usuario(idUsuario)
 ON DELETE CASCADE ON UPDATE CASCADE
 );

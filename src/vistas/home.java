@@ -14,6 +14,8 @@ import clases.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -37,7 +39,7 @@ public class home extends javax.swing.JFrame {
     ResultSet rs;
     DefaultTableModel modelo = new DefaultTableModel();
     int id;
-   
+    String timestamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
     public home() {
         initComponents();
         
@@ -50,10 +52,7 @@ public class home extends javax.swing.JFrame {
         listar();
         listarSucursal();
         saludoU();
-        
-        
         if (u.getId_tipo() == 1) {
-            
         }else if (u.getId_tipo() == 2) {
             menuvistaGeneral.remove(menuAdminSoc);
             menuvistaGeneral.remove(menuSucursales);
@@ -188,7 +187,7 @@ public class home extends javax.swing.JFrame {
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtApe = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel34 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
@@ -816,7 +815,7 @@ public class home extends javax.swing.JFrame {
         jLabel40.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel40.setText("APELLIDO PATERNO");
 
-        jTextField5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtApe.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout menuAdminSocLayout = new javax.swing.GroupLayout(menuAdminSoc);
         menuAdminSoc.setLayout(menuAdminSocLayout);
@@ -865,7 +864,7 @@ public class home extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel40)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField5))
+                                        .addComponent(txtApe))
                                     .addComponent(txtPassword)
                                     .addComponent(txtConfirmPass))))
                         .addContainerGap())
@@ -895,7 +894,7 @@ public class home extends javax.swing.JFrame {
                                     .addComponent(jLabel19)
                                     .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel40)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtApe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(27, 27, 27)
                                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -1236,23 +1235,28 @@ public class home extends javax.swing.JFrame {
         String pass = new String(txtPassword.getPassword());
         String passcon = new String(txtConfirmPass.getPassword());
         String nom = txtNombreU.getText();
+        String ape = txtApe.getText();
         String username = txt_Username.getText();
         String status = cmb_estadoU.getSelectedItem().toString();
         String rol = cmb_rolU.getSelectedItem().toString();
+        String fechaCreacion = timestamp;
         
-        if (pass.equals("") || passcon.equals("") || nom.equals("") || username.equals("") || status.equals("") || rol.equals("")) {
+        if (pass.equals("") || passcon.equals("") || nom.equals("") || username.equals("") || status.equals("") || rol.equals("") || ape.equals("")) {
             JOptionPane.showMessageDialog(null, "Hay campos que se deben llenar");
         }else{
             if (passcon.equals(pass)) { //verifica si las contraseñas coinciden
                 if (ud.existeUsuario(txt_Username.getText()) == 0) { //verificar si el usuario ya existe
                     //si es 0 no existe
                     String passCifrado = Hash.sha1(pass);
-                    Object[] ob = new Object[5];
+                    Object[] ob = new Object[7];
                     ob[0] = username;
                     ob[1] = nom;
                     ob[2] = passCifrado;
                     ob[3] = status;
                     ob[4] = rol;
+                    ob[5] = ape;
+                    ob[6] = fechaCreacion;
+                    ob[7] = login.idSuc;
                     if(ud.add(ob) == 1)
                     {
                         JOptionPane.showMessageDialog(null, "Usuario registrado con éxito");
@@ -1478,7 +1482,6 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JButton limpiarSucursal;
@@ -1491,6 +1494,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JTable tableMiembros;
     private javax.swing.JTable tableSucursales;
     private javax.swing.JTable tableVisitas;
+    private javax.swing.JTextField txtApe;
     private javax.swing.JTextField txtBuscarNombre;
     private javax.swing.JTextField txtCalle;
     private javax.swing.JTextField txtCol;

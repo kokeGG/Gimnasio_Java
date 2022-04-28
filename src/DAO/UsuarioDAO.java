@@ -10,7 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -32,8 +34,8 @@ public class UsuarioDAO implements CRUD{
             rs = null;
             con = cn.Conectar();
             //Consulta a la BD para ingresar datos
-            String sql = "INSERT INTO Usuario(Usur, Nombre, pass, idEstado, id_tipo) VALUES"
-                    + "(?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Usuario(Usuario, Nombre, Apellido, fechaCreacion, pass, idTipo, idSucursal) VALUES"
+                    + "(?, ?, ?, ?, ?, ?, ?)";
             
             try 
             {
@@ -41,9 +43,11 @@ public class UsuarioDAO implements CRUD{
             
                 ps.setString(1, usr.getUsername());
                 ps.setString(2, usr.getNombre());
-                ps.setString(3, usr.getPass());
-                ps.setInt(4, usr.getId_estado());
-                ps.setInt(5, usr.getId_tipo());
+                ps.setString(3, usr.getApellidoP());
+                ps.setString(4, usr.getFechaCreacion());
+                ps.setString(5, usr.getPass());
+                ps.setInt(6, usr.getId_tipo());
+                ps.setInt(7, usr.getId_sucursal());
                 ps.execute();
                 return true;
             } 
@@ -61,7 +65,7 @@ public class UsuarioDAO implements CRUD{
             rs = null;
             con = cn.Conectar();
             //Consulta a la bd para verificar si el usuario existe          
-            String sql = "SELECT COUNT(idUsuario) FROM Usuario WHERE Usur = ?"; //cuenta cuantos registros hay con el "username"
+            String sql = "SELECT COUNT(idUsuario) FROM Usuario WHERE Usuario = ?"; //cuenta cuantos registros hay con el "username"
             
             try 
             {
@@ -108,7 +112,7 @@ public class UsuarioDAO implements CRUD{
         
         public boolean login(Usuario usr){
             con = cn.Conectar();
-            String sql = "SELECT u.idUsuario, u.Usur, u.pass, u.Nombre, u.id_tipo, t.rol FROM Usuario AS u INNER JOIN tipo_usuario AS t ON u.id_tipo=t.id_tipo WHERE Usur = ?";
+            String sql = "SELECT u.idUsuario, u.Usuario, u.pass, u.Nombre, u.id_tipo, t.rol FROM Usuario AS u INNER JOIN tipo_usuario AS t ON u.id_tipo=t.id_tipo WHERE Usur = ?";
             
             try {
                 ps = con.prepareStatement(sql);
@@ -154,6 +158,7 @@ public class UsuarioDAO implements CRUD{
                 usr.setNombre(rs.getString(4));
                 usr.setPass(rs.getString(5));
                 usr.setId_tipo(rs.getInt(6));
+                usr.setFechaCreacion(rs.getString(7));
                 lista.add(usr);
              
             }
@@ -166,8 +171,8 @@ public class UsuarioDAO implements CRUD{
     @Override
     public int add(Object[] o) {
         int r = 0;
-        String sql = "INSERT INTO Usuario(Usur, Nombre, pass, idEstado, id_tipo) VALUES"
-                    + "(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Usuario(Usuario, Nombre, Apellido, fechaCreacion, pass, idTipo, idSucursal) VALUES"
+                    + "(?, ?, ?, ?, ?, ?, ?)";
             
             try 
             {
@@ -178,6 +183,8 @@ public class UsuarioDAO implements CRUD{
                 ps.setObject(3, o[2]);
                 ps.setObject(4, o[3]);
                 ps.setObject(5, o[4]);
+                ps.setObject(6, o[5]);
+                ps.setObject(7, o[6]);
                 r = ps.executeUpdate();
                 System.out.println("Usuario agregado");
             } 
@@ -193,7 +200,7 @@ public class UsuarioDAO implements CRUD{
     @Override
     public int actualizar(Object[] o) {
         int r = 0;
-        String sql = "UPDATE Usuario SET Usur = ?, Nombre = ?, pass = ?, id_tipo = ?, idEstado = ? WHERE idUsuario = ?";
+        String sql = "UPDATE Usuario SET idEstado = ?, Usuario = ?, Nombre = ?, Apellido = ?, pass = ?, idTipo = ?, idSucursal = ? WHERE idUsuario = ?";
         
         try {
             con = cn.Conectar();

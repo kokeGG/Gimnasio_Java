@@ -5,18 +5,21 @@
  */
 package clases;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  *
  * @author Koke
  */
 public class Usuario {
     int id, id_estado, id_tipo, id_sucursal;
-    String username, nombre, apellidoP, pass, nombrerol;
-
+    String username, nombre, apellidoP, pass, nombrerol, fechaCreacion;
+    
     public Usuario() {
     }
 
-    public Usuario(int id, int id_estado, int id_tipo, int id_sucursal, String username, String nombre, String apellidoP, String pass, String nombrerol) {
+    public Usuario(int id, int id_estado, int id_tipo, int id_sucursal, String username, String nombre, String apellidoP, String pass, String nombrerol, String fechaCreacion) {
         this.id = id;
         this.id_estado = id_estado;
         this.id_tipo = id_tipo;
@@ -26,6 +29,7 @@ public class Usuario {
         this.apellidoP = apellidoP;
         this.pass = pass;
         this.nombrerol = nombrerol;
+        this.fechaCreacion = fechaCreacion;
     }
 
     public int getId() {
@@ -100,8 +104,13 @@ public class Usuario {
         this.nombrerol = nombrerol;
     }
 
+    public String getFechaCreacion(){
+        return fechaCreacion;
+    }
     
-    
+    public void setFechaCreacion(String fechaCreacion){
+        this.fechaCreacion = fechaCreacion;
+    }
     
 }
 
