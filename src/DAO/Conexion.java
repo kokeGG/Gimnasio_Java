@@ -13,9 +13,9 @@ import java.sql.SQLException;
  */
 public class Conexion {
     Connection con;
-    String url = "jdbc:mysql://localhost/gymescorpion";
-    String user = "root";
-    String pass = "1234";
+    String url = "jdbc:mysql://uonkfezbhd178fel:aDTqqs6vgeiEGvYpGcD7@bgsqn430tnsahvubvsoj-mysql.services.clever-cloud.com:3306/bgsqn430tnsahvubvsoj";
+    String user = "uonkfezbhd178fel";
+    String pass = "aDTqqs6vgeiEGvYpGcD7";
 
     public Connection Conectar(){
         try{

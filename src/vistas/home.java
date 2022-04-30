@@ -348,6 +348,11 @@ public class home extends javax.swing.JFrame {
 
         btn_añadirMiembro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_añadirMiembro.setText("Añadir un nuevo Miembro");
+        btn_añadirMiembro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_añadirMiembroActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1196,6 +1201,12 @@ public class home extends javax.swing.JFrame {
         modificarUsuarios mu = new modificarUsuarios();
         mu.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btn_añadirMiembroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirMiembroActionPerformed
+        // TODO add your handling code here:
+        addMember adm = new addMember();
+        adm.setVisible(true);
+    }//GEN-LAST:event_btn_añadirMiembroActionPerformed
 
     /**
      * @param args the command line arguments
