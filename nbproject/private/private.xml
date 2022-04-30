@@ -4,10 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/kokegg/Gimnasio_Java/src/vistas/home.java</file>
+            <file>file:/home/kokegg/Gimnasio_Java/src/vistas/addMember.java</file>
             <file>file:/home/kokegg/Gimnasio_Java/src/vistas/registroUsuarios.java</file>
             <file>file:/home/kokegg/Gimnasio_Java/src/vistas/login.java</file>
-            <file>file:/home/kokegg/Gimnasio_Java/src/DAO/UsuarioDAO.java</file>
             <file>file:/home/kokegg/Gimnasio_Java/src/clases/Usuario.java</file>
+            <file>file:/home/kokegg/Gimnasio_Java/src/DAO/UsuarioDAO.java</file>
         </group>
     </open-files>
 </project-private>

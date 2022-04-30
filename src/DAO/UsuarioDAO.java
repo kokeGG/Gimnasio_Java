@@ -27,7 +27,7 @@ public class UsuarioDAO implements CRUD{
     
     Conexion cn = new Conexion();
 
-    
+    /*
         public boolean registarUsuario(Usuario usr)
         {
             ps = null;
@@ -58,7 +58,7 @@ public class UsuarioDAO implements CRUD{
             }
             
         }
-        
+        */
         public int existeUsuario(String usuario)
         {
             ps = null;
@@ -86,7 +86,7 @@ public class UsuarioDAO implements CRUD{
             }
             
         }
-        
+        /*
         public Usuario listarUsuarioID(String dni){
         Usuario u = new Usuario();
         String sql = "SELECT * FROM Usuario";
@@ -99,8 +99,11 @@ public class UsuarioDAO implements CRUD{
                 u.setId_estado(rs.getInt(2));
                 u.setUsername(rs.getString(3));
                 u.setNombre(rs.getString(4));
-                u.setPass(rs.getString(6));
-                u.setId_tipo(rs.getInt(7));
+                u.setApellidoP(rs.getString(5));
+                u.setFechaCreacion(rs.getString(6));
+                u.setPass(rs.getString(7));
+                u.setId_tipo(rs.getInt(8));
+                u.setId_sucursal(rs.getInt(9));
             }
         } catch (Exception e) {
             System.out.println("Error al listar ID de los usuarios: " + e);
@@ -108,11 +111,11 @@ public class UsuarioDAO implements CRUD{
         
         return u;
     }
-        
+     */   
         
         public boolean login(Usuario usr){
             con = cn.Conectar();
-            String sql = "SELECT u.idUsuario, u.Usuario, u.pass, u.Nombre, u.id_tipo, t.rol FROM Usuario AS u INNER JOIN tipo_usuario AS t ON u.id_tipo=t.id_tipo WHERE Usur = ?";
+            String sql = "SELECT u.idUsuario, u.Usuario, u.pass, u.Nombre, u.idTipo, u.idSucursal, idEstado FROM Usuario AS u INNER JOIN tipoUsuario AS t ON u.idTipo = t.idTipo WHERE Usuario = ?";
             
             try {
                 ps = con.prepareStatement(sql);
@@ -125,7 +128,8 @@ public class UsuarioDAO implements CRUD{
                         usr.setId(rs.getInt(1));
                         usr.setNombre(rs.getString(4));
                         usr.setId_tipo(rs.getInt(5));
-                        usr.setNombrerol(rs.getString(6));
+                        usr.setId_sucursal(rs.getInt(6));
+                        usr.setId_estado(rs.getInt(7));
                         return true; //cuando las contraseñas coincidan
                     } else{
                         return false; //cuando las contraseñas no coincidan
@@ -156,14 +160,16 @@ public class UsuarioDAO implements CRUD{
                 usr.setId_estado(rs.getInt(2));
                 usr.setUsername(rs.getString(3));
                 usr.setNombre(rs.getString(4));
-                usr.setPass(rs.getString(5));
-                usr.setId_tipo(rs.getInt(6));
-                usr.setFechaCreacion(rs.getString(7));
+                usr.setApellidoP(rs.getString(5));
+                usr.setFechaCreacion(rs.getString(6));
+                usr.setPass(rs.getString(7));
+                usr.setId_tipo(rs.getInt(8));
+                usr.setId_sucursal(rs.getInt(9));
                 lista.add(usr);
              
             }
         } catch (Exception e) {
-            System.out.println("Error al mostrar productos" + e);
+            System.out.println("Error al mostrar usuarios" + e);
         }
         return lista;
     }
@@ -171,8 +177,8 @@ public class UsuarioDAO implements CRUD{
     @Override
     public int add(Object[] o) {
         int r = 0;
-        String sql = "INSERT INTO Usuario(Usuario, Nombre, Apellido, fechaCreacion, pass, idTipo, idSucursal) VALUES"
-                    + "(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Usuario(Usuario, Nombre, Apellido, fechaCreacion, pass, idTipo, idEstado, idSucursal) VALUES"
+                    + "(?, ?, ?, ?, ?, ?, ?, ?)";
             
             try 
             {
@@ -185,6 +191,7 @@ public class UsuarioDAO implements CRUD{
                 ps.setObject(5, o[4]);
                 ps.setObject(6, o[5]);
                 ps.setObject(7, o[6]);
+                ps.setObject(8, o[7]);
                 r = ps.executeUpdate();
                 System.out.println("Usuario agregado");
             } 
@@ -200,7 +207,7 @@ public class UsuarioDAO implements CRUD{
     @Override
     public int actualizar(Object[] o) {
         int r = 0;
-        String sql = "UPDATE Usuario SET idEstado = ?, Usuario = ?, Nombre = ?, Apellido = ?, pass = ?, idTipo = ?, idSucursal = ? WHERE idUsuario = ?";
+        String sql = "UPDATE Usuario SET idEstado = ?, Usuario = ?, Nombre = ?, Apellido = ?, idTipo = ?, idSucursal = ? WHERE idUsuario = ?";
         
         try {
             con = cn.Conectar();
@@ -211,6 +218,7 @@ public class UsuarioDAO implements CRUD{
             ps.setObject(4, o[3]);
             ps.setObject(5, o[4]);
             ps.setObject(6, o[5]);
+            ps.setObject(7, o[6]);
             r = ps.executeUpdate();
             System.out.println("Usuario modificado");
             

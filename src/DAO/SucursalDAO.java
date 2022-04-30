@@ -123,7 +123,7 @@ public class SucursalDAO implements CRUD{
     @Override
     public List listar() {
         List<Sucursal> lista = new ArrayList<>();
-        String sql = "SELECT idSucursal, Nombre, Tel, calle, colonia, idUsuario FROM Sucursal;";
+        String sql = "SELECT idSucursal, Nombre, Tel, calle, colonia FROM Sucursal;";
         
         try {
             con = cn.Conectar();
@@ -137,10 +137,8 @@ public class SucursalDAO implements CRUD{
                 s.setTel(rs.getString(3));
                 s.setCalle(rs.getString(4));
                 s.setCol(rs.getString(5));
-                s.setIdUsuario(rs.getInt(6));
                 
                 lista.add(s);
-                System.out.println("Sucursales mostradas");
             }
             
         } catch (Exception e) {
@@ -153,7 +151,7 @@ public class SucursalDAO implements CRUD{
     @Override
     public int add(Object[] o) {
         int r = 0;
-        String sql = "INSERT INTO Sucursal(Nombre, Tel, calle, colonia, idUsuario) VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Sucursal(Nombre, Tel, calle, colonia) VALUES(?, ?, ?, ?)";
         
         try {
             con = cn.Conectar();
@@ -162,7 +160,6 @@ public class SucursalDAO implements CRUD{
             ps.setObject(2, o[1]);
             ps.setObject(3, o[2]);
             ps.setObject(4, o[3]);
-            ps.setObject(5, o[4]);
             r = ps.executeUpdate();
             System.out.println("Sucursales insertadas");
         } catch (Exception e) {
@@ -174,7 +171,7 @@ public class SucursalDAO implements CRUD{
     @Override
     public int actualizar(Object[] o) {
         int r = 0;
-        String sql = "UPDATE Sucursal SET Nombre = ?, Tel = ?, calle = ?, colonia = ?, idUsuario = ? WHERE idSucursal = ?";
+        String sql = "UPDATE Sucursal SET Nombre = ?, Tel = ?, calle = ?, colonia = ? WHERE idSucursal = ?";
         
         try {
             con = cn.Conectar();
@@ -184,7 +181,6 @@ public class SucursalDAO implements CRUD{
             ps.setObject(3, o[2]);
             ps.setObject(4, o[3]);
             ps.setObject(5, o[4]);
-            ps.setObject(6, o[5]);
             r = ps.executeUpdate();
             System.out.println("Sucursales Modificadas");
         } catch (Exception e) {
