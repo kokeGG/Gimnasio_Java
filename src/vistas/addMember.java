@@ -53,8 +53,6 @@ public class addMember extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jLabel1.setText("Nombre:");
 
         jLabel2.setText("Apellido Paterno:");
